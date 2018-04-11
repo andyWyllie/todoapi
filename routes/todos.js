@@ -37,12 +37,27 @@ router.get('/:todoId', function(req, res){
 
 
 // update route
-// router.put('/:todoId/edit', function(req, res){
-//     db.Todo.findByIdAndUpdate()
-// })
+router.put('/:todoId', function(req, res){
+    db.Todo.findOneAndUpdate({_id: req.params.todoId}, req.body, {new: true})
+    .then(function(todo){
+        res.json(todo);
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+});
 
 
 // delete route
+router.delete('/:todoId', function(req, res){
+    db.Todo.remove({_id: req.params.todoId})
+    .then(function(){
+        res.json({message: 'Todo deleted'});
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+});
 
 
 module.exports = router;
